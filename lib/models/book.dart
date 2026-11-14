@@ -1,8 +1,8 @@
 enum BookGenre {
-  novel('Vep'),
-  history('Patmutyun'),
-  fantasy('Fantastika'),
-  poetry('Banastexcutyun');
+  novel('Վեպ'),
+  history('Պատմություն'),
+  fantasy('Ֆանտաստիկա'),
+  poetry('Բանաստեղծություն');
 
   final String label;
   const BookGenre(this.label);

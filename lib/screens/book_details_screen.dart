@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/book.dart';
+import '../widgets/star_rating_widget.dart';
 
 class BookDetailsScreen extends StatefulWidget {
   final Book book;
@@ -16,7 +17,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    _currentRating = widget.book.rating == 0 ? 5 : widget.book.rating;
+    _currentRating = widget.book.rating; 
   }
 
   @override
@@ -36,48 +37,43 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Hexinak ${widget.book.author}',
+              'Հեղինակ՝ ${widget.book.author}',
               style: const TextStyle(fontSize: 18, color: Colors.black87),
             ),
             const SizedBox(height: 4),
             Text(
-              'Zhanr ${widget.book.genre.label}',
-              style: const TextStyle(fontSize: 16, color: Color.fromARGB(255, 226, 204, 204)),
+              'Ժանր՝ ${widget.book.genre.label}',
+              style: TextStyle(fontSize: 16, color: Colors.grey[700]), // Շտկված գույն
             ),
             const SizedBox(height: 32),
             const Text(
-              'Gnahateq girqy (1–5 astx)',
+              'Գնահատեք գիրքը (1–5 աստղ)․',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (index) {
-                final starValue = index + 1;
-                return IconButton(
-                  iconSize: 40,
-                  icon: Icon(
-                    starValue <= _currentRating ? Icons.star : Icons.star_border,
-                    color: Colors.amber,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _currentRating = starValue;
-                    });
-                  },
-                );
-              }),
+            Center(
+              child: StarRatingWidget(
+                rating: _currentRating,
+                size: 40,
+                onRatingChanged: (newRating) {
+                  setState(() {
+                    _currentRating = newRating;
+                  });
+                },
+              ),
             ),
             const Spacer(),
             SizedBox(
               width: double.infinity,
               height: 50,
               child: FilledButton(
-                onPressed: () {
-                  Navigator.pop(context, _currentRating);
-                },
+                onPressed: _currentRating == 0
+                    ? null 
+                    : () {
+                        Navigator.pop(context, _currentRating);
+                      },
                 child: const Text(
-                  'Pahpanel',
+                  'Պահպանել',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
